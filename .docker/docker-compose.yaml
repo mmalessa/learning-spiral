@@ -10,7 +10,7 @@ services:
                 DEVELOPER_UID: ${DEVELOPER_UID}
         container_name: spiral-application
         restart: always
-        ports: [8080:8080]
+        ports: [8080:8080,2112:2112]
         volumes:
             - ..:/application
             - ./dev/config/spiral-application/.bashrc:/home/developer/.bashrc
