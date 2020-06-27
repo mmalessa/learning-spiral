@@ -4,8 +4,7 @@ services:
     spiral-application:
         image: spiral-application:latest
         build:
-            context: base
-            dockerfile: application/Dockerfile
+            context: base/application
             args:
                 DEVELOPER_UID: ${DEVELOPER_UID}
         container_name: spiral-application
@@ -17,10 +16,33 @@ services:
             - ./dev/config/spiral-application/php-ini-overrides.ini:/usr/local/etc/php/conf.d/99-overrides.ini
         working_dir: /application
         command: ['tail', '-f', '/dev/null']
-        networks:
-            spiral:
-                aliases:
-                    - application
+#        command: ['./spiral', 'serve']
+#        networks:
+#            spiral:
+#                aliases:
+#                    - application
         hostname: spiral-application
-networks:
-    spiral:
+
+#    spiral-rabbitmq:
+#        image: spiral-rabbitmq:latest
+#        container_name: rpiral-rabbitmq
+#        build:
+#            context: base/rabbitmq
+#        restart: always
+#        ports: [5672:5672,15672:15672]
+#        hostname: spiral-rabbitmq
+#        volumes:
+#            - spiral_rabbitmq:/var/lib/rabbitmq/mnesia
+#        networks:
+#            spiral:
+#                aliases:
+#                    - rabbitmq
+#        environment:
+#            RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+#            RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS}
+
+#networks:
+#    spiral:
+
+#volumes:
+#    spiral_rabbitmq:
