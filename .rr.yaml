@@ -9,16 +9,16 @@ http:
 jobs:
   dispatch:
     app-job-*.pipeline: "local"
-    app-application-command-*.pipeline: "local"
+    app-application-command-*.pipeline: "remote"
 
   pipelines:
     local:
       broker: "ephemeral"
-#    remote:
-#      broker: amqp
-#      queue:  messages_for_spiral
-#      maxAttempts: 2
-#      exchange: amqp.topic
+    remote:
+      broker: amqp
+      queue:  messages_for_spiral
+      maxAttempts: 2
+      exchange: spiral
 
   consume: ["local"]
 
@@ -27,6 +27,7 @@ jobs:
     pool.numWorkers: 2
 
 #  amqp.addr: amqp://user:user@rabbitmq:5672/
+  amqp.addr: amqp://user:user@10.1.99.110:5672/
 
 # serve static files
 static:

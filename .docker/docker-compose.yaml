@@ -23,26 +23,26 @@ services:
 #                    - application
         hostname: spiral-application
 
-#    spiral-rabbitmq:
-#        image: spiral-rabbitmq:latest
-#        container_name: rpiral-rabbitmq
-#        build:
-#            context: base/rabbitmq
-#        restart: always
-#        ports: [5672:5672,15672:15672]
-#        hostname: spiral-rabbitmq
-#        volumes:
-#            - spiral_rabbitmq:/var/lib/rabbitmq/mnesia
+    spiral-rabbitmq:
+        image: spiral-rabbitmq:latest
+        container_name: rpiral-rabbitmq
+        build:
+            context: base/rabbitmq
+        restart: always
+        ports: [5672:5672,15672:15672]
+        hostname: spiral-rabbitmq
+        volumes:
+            - spiral_rabbitmq:/var/lib/rabbitmq/mnesia
 #        networks:
 #            spiral:
 #                aliases:
 #                    - rabbitmq
-#        environment:
-#            RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
-#            RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS}
+        environment:
+            RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+            RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS}
 
 #networks:
 #    spiral:
 
-#volumes:
-#    spiral_rabbitmq:
+volumes:
+    spiral_rabbitmq:
