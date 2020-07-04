@@ -6,8 +6,6 @@ services:
         build:
             context: base/application
         restart: always
-        ports:
-            - 8080:8080
         volumes:
             - ../:/application
             - ./config/application/.bashrc:/home/developer/.bashrc
@@ -25,7 +23,9 @@ services:
         build:
             context: base/rabbitmq
         restart: always
-        ports: [15672:15672]
+        ports:
+            - 5672:5672
+            - 15672:15672
         networks:
             spiral:
                 aliases:
