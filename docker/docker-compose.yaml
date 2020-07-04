@@ -1,48 +1,43 @@
-version: "3.7"
+version: "3.8"
 services:
-
-    spiral-application:
+    application:
         image: spiral-application:latest
+        container_name: spiral-application
         build:
             context: base/application
-            args:
-                DEVELOPER_UID: ${DEVELOPER_UID}
-        container_name: spiral-application
         restart: always
-        ports: [8080:8080,2112:2112]
+        ports:
+            - 8080:8080
         volumes:
-            - ..:/application
-            - ./dev/config/spiral-application/.bashrc:/home/developer/.bashrc
-            - ./dev/config/spiral-application/php-ini-overrides.ini:/usr/local/etc/php/conf.d/99-overrides.ini
+            - ../:/application
+            - ./config/application/.bashrc:/home/developer/.bashrc
+            - ./config/application/php-ini-overrides.ini:/usr/local/etc/php/conf.d/99-overrides.ini
         working_dir: /application
         command: ['tail', '-f', '/dev/null']
-#        command: ['./spiral', 'serve']
-#        networks:
-#            spiral:
-#                aliases:
-#                    - application
-        hostname: spiral-application
+        networks:
+            spiral:
+                aliases:
+                    - application
 
-    spiral-rabbitmq:
+    rabbitmq:
         image: spiral-rabbitmq:latest
         container_name: spiral-rabbitmq
         build:
             context: base/rabbitmq
         restart: always
-        ports: [5672:5672,15672:15672]
-        hostname: spiral-rabbitmq
+        ports: [15672:15672]
+        networks:
+            spiral:
+                aliases:
+                    - rabbitmq
         volumes:
             - spiral_rabbitmq:/var/lib/rabbitmq/mnesia
-#        networks:
-#            spiral:
-#                aliases:
-#                    - rabbitmq
         environment:
             RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
-            RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS}
+            RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
 
-#networks:
-#    spiral:
+networks:
+    spiral:
 
 volumes:
     spiral_rabbitmq:
