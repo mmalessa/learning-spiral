@@ -12,32 +12,13 @@ services:
             - ./config/application/php-ini-overrides.ini:/usr/local/etc/php/conf.d/99-overrides.ini
         working_dir: /application
         command: ['tail', '-f', '/dev/null']
+        ports:
+        - 8080:8080
+        - 2112:2112
         networks:
             spiral:
                 aliases:
                     - application
 
-    rabbitmq:
-        image: spiral-rabbitmq:latest
-        container_name: spiral-rabbitmq
-        build:
-            context: base/rabbitmq
-        restart: always
-        ports:
-            - 5672:5672
-            - 15672:15672
-        networks:
-            spiral:
-                aliases:
-                    - rabbitmq
-        volumes:
-            - spiral_rabbitmq:/var/lib/rabbitmq/mnesia
-        environment:
-            RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
-            RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
-
 networks:
     spiral:
-
-volumes:
-    spiral_rabbitmq:
