@@ -9,25 +9,14 @@ http:
 jobs:
   dispatch:
     app-job-*.pipeline: "local"
-    app-application-command-*.pipeline: "remote"
-
   pipelines:
     local:
       broker: "ephemeral"
-    remote:
-      broker: amqp
-      queue:  messages_for_spiral
-      maxAttempts: 2
-      exchange: spiral
-
   consume: ["local"]
 
   workers:
     command: "php app.php"
     pool.numWorkers: 2
-
-#  amqp.addr: amqp://user:user@rabbitmq:5672/
-  amqp.addr: amqp://user:user@10.1.99.110:5672/
 
 # serve static files
 static:
@@ -36,11 +25,7 @@ static:
 
 metrics:
   # prometheus client address (path /metrics added automatically)
-  address: 0.0.0.0:2112
-rpc:
-#  enable: true
-#  listen: tcp://application:6001
-  #FIXME - see: vendor/spiral/framework/src/Bootloader/ServerBootloader.php -> private const RPC_DEFAULT
+  address: localhost:2112
 
 # control the max memory usage
 limit:
