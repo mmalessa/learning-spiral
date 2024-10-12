@@ -1,0 +1,29 @@
+services:
+    php:
+        build:
+            context: .
+            target: local
+            args:
+                UID: 1000
+                USER: local
+        restart: on-failure
+        environment:
+            PHP_IDE_CONFIG: "serverName=dev"
+        volumes:
+            - ./:/app:consistent
+            - .docker/development/php/php-override.ini:/usr/local/etc/php/conf.d/php-override.ini
+            - user_home:/home/local
+        networks:
+            net:
+        ports:
+            - "8080:8080"
+        extra_hosts:
+            - host.docker.internal:host-gateway
+        tty: true
+
+volumes:
+    user_home:
+
+networks:
+    net:
+        name: developer
